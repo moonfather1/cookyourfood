@@ -23,7 +23,7 @@ public class EventBusHandlers
 	@SubscribeEvent
 	public static void OnFood(LivingEntityUseItemEvent.Finish event)
 	{
-		if (event.getEntity().level.isClientSide)
+		if (event.getEntity().level().isClientSide)
 		{
 			return;
 		}
@@ -33,7 +33,7 @@ public class EventBusHandlers
 		{
 			return;
 		}
-		FoodResolver.RawFoodRank rank = FoodResolver.Resolve(event.getItem(), event.getEntity().level);
+		FoodResolver.RawFoodRank rank = FoodResolver.Resolve(event.getItem(), event.getEntity().level());
 		if (rank.equals(FoodResolver.RawFoodRank.NotACookableFood))
 		{
 			return;
@@ -190,7 +190,7 @@ public class EventBusHandlers
 		if (existing != null)
 		{
 			// randomly reduce added duration; approx 0.5 for everything except hunger and 0.25 for hunger.
-			float timeMultiplier = player.level.getRandom().nextFloat();
+			float timeMultiplier = player.level().getRandom().nextFloat();
 			if (potion == MobEffects.HUNGER)
 			{
 				timeMultiplier *= 0.5f;
@@ -208,11 +208,11 @@ public class EventBusHandlers
 
 	private static double GetDifficultyMultiplier(LivingEntity player)
 	{
-		if (player.level.getDifficulty() == Difficulty.EASY || player.level.getDifficulty() == Difficulty.PEACEFUL)
+		if (player.level().getDifficulty() == Difficulty.EASY || player.level().getDifficulty() == Difficulty.PEACEFUL)
 		{
 			return OptionsHolder.COMMON.EasyDifDurationMultiplier.get();
 		}
-		if (player.level.getDifficulty() == Difficulty.NORMAL)
+		if (player.level().getDifficulty() == Difficulty.NORMAL)
 		{
 			return OptionsHolder.COMMON.NormalDifDurationMultiplier.get();
 		}

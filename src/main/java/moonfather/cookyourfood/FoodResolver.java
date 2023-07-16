@@ -83,7 +83,7 @@ public class FoodResolver
 		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
 				r ->
 				{
-					if  (!r.getResultItem().isEmpty() && r.getResultItem().getItem().getFoodProperties() != null)
+					if  (! r.getResultItem(world.registryAccess()).isEmpty() && r.getResultItem(world.registryAccess()).getItem().getFoodProperties() != null)
 					{
 						rank[0] = RawFoodRank.Normal;
 					}

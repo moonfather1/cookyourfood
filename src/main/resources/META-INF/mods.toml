@@ -1,27 +1,30 @@
 
-modLoader="javafml" 
-loaderVersion="[44,)"
-license="LGPLv3"
+modLoader="javafml" #mandatory
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 
-[[mods]] 
-modId="cookyourfood" 
-version="1.00" 
- 
-displayURL="https://modrinth.com/mod/cook-your-food"
+[[mods]] #mandatory
+modId="${mod_id}" #mandatory
+version="${mod_version}" #mandatory
+displayName="${mod_name}" #mandatory
+
 issueTrackerURL="https://discord.gg/C9MrEenQ"
+authors="${mod_authors}" #optional
+description='''${mod_description}'''
 
-displayName="Cook your food"
-authors="MoonFather" 
-description='''This mod makes the food poisoning a serious deal. Eating any kind of raw food will cause poisoning with varying effects. Eating rotten flesh is a very, very bad idea and should only be done as a last-ditch gamble, if you're going to die anyway.''' 
-[[dependencies.cookyourfood]]     
-    modId="forge"     
-    mandatory=true     
-    versionRange="[44,)"
-    ordering="NONE"    
-    side="BOTH"
-[[dependencies.cookyourfood]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.19.3,1.20)"
+[[dependencies.${mod_id}]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="${forge_version_range}" #mandatory
     ordering="NONE"
     side="BOTH"
+	
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[modproperties.woodentoolsremoved]
+    catalogueImageIcon="minecraft:textures/items/rabbit_stew"

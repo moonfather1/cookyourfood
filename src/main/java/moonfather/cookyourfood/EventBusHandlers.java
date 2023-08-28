@@ -2,7 +2,6 @@ package moonfather.cookyourfood;
 
 import java.util.*;
 
-import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class EventBusHandlers  
 {
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 
 	
@@ -29,7 +28,7 @@ public class EventBusHandlers
 		}
 		
 		Item item = event.getItem().getItem();
-		if (item.getFoodProperties() == null)
+		if (item.getFoodProperties(event.getItem(), event.getEntity()) == null)
 		{
 			return;
 		}
@@ -40,11 +39,11 @@ public class EventBusHandlers
 		}
 
 		// have rank
-		int effectId = GetSessionEffectId(event.getEntity(), item); // same food equals same effects within half an hour
 		if (rank.equals(FoodResolver.RawFoodRank.OkayToEat))
 		{
 			return;
 		}
+		int effectId = GetSessionEffectId(event.getEntity(), item); // same food equals same effects within half an hour
 		if (rank.equals(FoodResolver.RawFoodRank.Severe))
 		{
 			ApplySevereEffect(event.getEntity(), effectId);
@@ -80,16 +79,16 @@ public class EventBusHandlers
 		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
 		if (r <= 30)
 		{
-			ApplyEfectInternal(player, MobEffects.WEAKNESS, 40, 0);
+			ApplyEffectInternal(player, MobEffects.WEAKNESS, 40, 0);
 		}
 		else if (r <= 40)
 		{
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 0);
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 40, 0);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 40, 0);
 		}
 		else if (r <= 45)
 		{
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
 		}
 	}
 	
@@ -101,33 +100,33 @@ public class EventBusHandlers
 		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
 		if (r <= 10)
 		{
-			ApplyEfectInternal(player, MobEffects.POISON, 6, 0);
-			ApplyEfectInternal(player, MobEffects.WEAKNESS, 40, 1);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 40, 0);
+			ApplyEffectInternal(player, MobEffects.POISON, 6, 0);
+			ApplyEffectInternal(player, MobEffects.WEAKNESS, 40, 1);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
 		}
 		else if (r <= 25)
 		{
-			ApplyEfectInternal(player, MobEffects.BLINDNESS, 40, 1);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 1);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 40, 0);
+			ApplyEffectInternal(player, MobEffects.BLINDNESS, 40, 1);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 1);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
 		}
 		else if (r <= 60)
 		{
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 90, 1);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 90, 1);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 30, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 90, 1);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 90, 1);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 30, 0);
 		}
 		else if (r <= 85)
 		{
-			ApplyEfectInternal(player, MobEffects.WEAKNESS, 80, 1);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 80, 1);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 30, 0);
+			ApplyEffectInternal(player, MobEffects.WEAKNESS, 80, 1);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 80, 1);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 30, 0);
 		}
 		else if (r <= 99)
 		{
-			ApplyEfectInternal(player, MobEffects.CONFUSION, 60, 0);
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 40, 0);
+			ApplyEffectInternal(player, MobEffects.CONFUSION, 60, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
 		}
 	}
 	
@@ -139,50 +138,50 @@ public class EventBusHandlers
 		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
 		if (r <= 20)
 		{
-			ApplyEfectInternal(player, MobEffects.CONFUSION, 45, 0);
-			ApplyEfectInternal(player, MobEffects.WEAKNESS, 45, 0);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 45, 0);
+			ApplyEffectInternal(player, MobEffects.CONFUSION, 45, 0);
+			ApplyEffectInternal(player, MobEffects.WEAKNESS, 45, 0);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
 		}
 		else if (r <= 30)
 		{
-			ApplyEfectInternal(player, MobEffects.CONFUSION, 45, 0);
-			ApplyEfectInternal(player, MobEffects.POISON, 10, 0);
+			ApplyEffectInternal(player, MobEffects.CONFUSION, 45, 0);
+			ApplyEffectInternal(player, MobEffects.POISON, 10, 0);
 		}
 		else if (r <= 45)
 		{
-			ApplyEfectInternal(player, MobEffects.BLINDNESS, 45, 0);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
-			ApplyEfectInternal(player, MobEffects.POISON, 20, 0);
+			ApplyEffectInternal(player, MobEffects.BLINDNESS, 45, 0);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
+			ApplyEffectInternal(player, MobEffects.POISON, 20, 0);
 		}
 		else if (r <= 55)
 		{
-			ApplyEfectInternal(player, MobEffects.BLINDNESS, 15, 1);
-			ApplyEfectInternal(player, MobEffects.POISON, 15, 0);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 45, 0);
+			ApplyEffectInternal(player, MobEffects.BLINDNESS, 15, 1);
+			ApplyEffectInternal(player, MobEffects.POISON, 15, 0);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
 		}
 		else if (r <= 75)
 		{
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 2);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 60, 2);
-			ApplyEfectInternal(player, MobEffects.POISON, 15, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 2);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 60, 2);
+			ApplyEffectInternal(player, MobEffects.POISON, 15, 0);
 		}
 		else if (r <= 90)
 		{
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
-			ApplyEfectInternal(player, MobEffects.WEAKNESS, 60, 1);
-			ApplyEfectInternal(player, MobEffects.POISON, 15, 1);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
+			ApplyEffectInternal(player, MobEffects.WEAKNESS, 60, 1);
+			ApplyEffectInternal(player, MobEffects.POISON, 15, 1);
 		}
 		else if (r <= 95)
 		{
-			ApplyEfectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 45, 0);
-			ApplyEfectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
-			ApplyEfectInternal(player, MobEffects.HUNGER, 45, 0);
+			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 45, 0);
+			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
+			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
 		}
 	}
 	
 
 	
-	private static void ApplyEfectInternal(LivingEntity player, MobEffect potion, int durationInSeconds, int level)
+	private static void ApplyEffectInternal(LivingEntity player, MobEffect potion, int durationInSeconds, int level)
 	{
 		int duration = (int) Math.round(durationInSeconds * 20 * GetDifficultyMultiplier(player));
 		
@@ -195,7 +194,7 @@ public class EventBusHandlers
 			{
 				timeMultiplier *= 0.5f;
 			}
-			duration = (int) Math.round(timeMultiplier * duration + 1f);
+			duration = Math.round(timeMultiplier * duration + 1f);
 			//System.out.println("*********      Internal(" + timeMultiplier + "," + duration + ")");
 			duration = duration + existing.getDuration();
 			level = Math.max(level, existing.getAmplifier());

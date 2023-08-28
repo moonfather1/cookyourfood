@@ -1,4 +1,4 @@
-package moonfather.cookyourfood.extra;
+package moonfather.cookyourfood.client;
 
 import moonfather.cookyourfood.Constants;
 import moonfather.cookyourfood.FoodResolver;

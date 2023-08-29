@@ -31,7 +31,7 @@ public class ModCookYourFood
     private void setup(final FMLCommonSetupEvent event)
     {
 		EventForTooltips eft = new EventForTooltips();
-		if (OptionsHolder.COMMON.ShowWarningsInTooltip.get())
+		if (OptionsHolder.CLIENT.ShowWarningsInTooltip.get())
 		{
 			MinecraftForge.EVENT_BUS.addListener(eft::OnItemTooltip);
 		}

@@ -15,7 +15,6 @@ public class FoodResolver
 	private static final SimpleContainer inventoryForCheckingRecipes = new SimpleContainer(ItemStack.EMPTY);
 	public enum RawFoodRank { NotMapped, NotACookableFood, OkayToEat, Light, Normal, Severe };
 	private static final Map<Item, RawFoodRank> foodMap = new HashMap<Item, RawFoodRank>();
-	private static boolean staticInitializationDone = false;
 
 
 
@@ -39,46 +38,39 @@ public class FoodResolver
 		FoodResolver.foodMap.put(item, RawFoodRank.OkayToEat);
 	}
 
-	private static void CheckStaticInitialization()
-	{
-		// because stupid java does not support static constructors
-		if (!staticInitializationDone)
-		{
-			// Raw Salmon:  dmg==1,   Raw Cod:  dmg==0,  Pufferfish:  dmg==3,  Clownfish:  dmg==2
-			AddCustomRawFoodNormal(Items.TROPICAL_FISH); // clownfish - not cookable but edible
-
-			AddCustomRawFoodLight(Items.POTATO); // normal raw potato
-			AddCustomRawFoodLight(Items.SALMON); // salmon
-
-			AddCustomRawFoodNormal(Items.POISONOUS_POTATO);
-			AddCustomRawFoodSevere(Items.ROTTEN_FLESH);
-
-			staticInitializationDone = true;
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	public static RawFoodRank Resolve(ItemStack stack, Level world)
 	{
-		FoodResolver.CheckStaticInitialization();
 		final FoodResolver.RawFoodRank[] rank = new RawFoodRank[1]; // because it's used in stupid lambda of stupid Optional
 		rank[0] = foodMap.getOrDefault(stack.getItem(), RawFoodRank.NotMapped);
 		if (! rank[0].equals(RawFoodRank.NotMapped))
 		{
 			return rank[0];
 		}
+		///...///
+		if (stack.is(Constants.Tags.OK_TO_EAT_RAW))
+		{
+			foodMap.put(stack.getItem(), RawFoodRank.OkayToEat);
+			return RawFoodRank.OkayToEat;
+		}
+		if (stack.is(Constants.Tags.RAW_FOOD_SEVERE))
+		{
+			foodMap.put(stack.getItem(), RawFoodRank.Severe);
+			return RawFoodRank.Severe;
+		}
+		if (stack.is(Constants.Tags.RAW_FOOD_LIGHT))
+		{
+			foodMap.put(stack.getItem(), RawFoodRank.Light);
+			return RawFoodRank.Light;
+		}
+		if (stack.is(Constants.Tags.RAW_FOOD_NORMAL))
+		{
+			foodMap.put(stack.getItem(), RawFoodRank.Normal);
+			return RawFoodRank.Normal;
+		}
+		///...///
 		inventoryForCheckingRecipes.setItem(0, stack);
-			/*if (event.getEntity().level.getRecipeManager().getRecipeFor(IRecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, event.getEntity().level).isPresent())
-			{
-				foodMap.put(item, RawFoodRank.Normal);
-				rank = RawFoodRank.Normal;
-			}
-			else
-			{
-				foodMap.put(item, RawFoodRank.NotACookableFood);
-				return;
-			}*/
 		rank[0] = RawFoodRank.NotACookableFood;
 		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
 				r ->

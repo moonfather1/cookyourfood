@@ -1,4 +1,4 @@
-package moonfather.cookyourfood.extra;
+package moonfather.cookyourfood.client;
 
 import moonfather.cookyourfood.FoodResolver;
 import net.minecraft.network.chat.Component;

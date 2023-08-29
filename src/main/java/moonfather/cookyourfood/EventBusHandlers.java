@@ -2,6 +2,7 @@ package moonfather.cookyourfood;
 
 import java.util.*;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -9,13 +10,22 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
 public class EventBusHandlers  
 {
 	private static final Random random = new Random();
+
+
+	@SubscribeEvent
+	public static void OnFood(ServerStartedEvent event)
+	{
+		EffectPools.getNormal();  // just poke it to form a json so that users can edit it.
+	}
 
 
 	
@@ -73,110 +83,41 @@ public class EventBusHandlers
 
 
 
-	private static void ApplyLightEffect(LivingEntity player, int sessionEffectId)
+	private static void ApplyLoadedEffect(LivingEntity player, int sessionEffectId, EffectPools.EffectLevel loaded)
 	{
-		//System.out.println("*********      ApplyLightEffect(" + sessionEffectId + ")");
+
 		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
-		if (r <= 30)
+		int index = 0;
+		while (index < loaded.effects.length && r > loaded.effects[index].weight)
 		{
-			ApplyEffectInternal(player, MobEffects.WEAKNESS, 40, 0);
+			r -= loaded.effects[index].weight;
+			index += 1;
 		}
-		else if (r <= 40)
+		if (index < loaded.effects.length)
 		{
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 0);
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 40, 0);
-		}
-		else if (r <= 45)
-		{
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
+			// if not, we went through all effect and there should be nothing applied
+			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
+			{
+				ApplyEffectInternal(player, ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
+			}
 		}
 	}
-	
-	
+	private static void ApplyLightEffect(LivingEntity player, int sessionEffectId)
+	{
+		ApplyLoadedEffect(player, sessionEffectId, EffectPools.getLight());
+		//System.out.println("*********      ApplyLightEffect(" + sessionEffectId + ")");
+	}
 	
 	private static void ApplyNormalEffect(LivingEntity player, int sessionEffectId)
 	{
 		//System.out.println("*********      ApplyNormalEffect(" + sessionEffectId + ")");
-		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
-		if (r <= 10)
-		{
-			ApplyEffectInternal(player, MobEffects.POISON, 6, 0);
-			ApplyEffectInternal(player, MobEffects.WEAKNESS, 40, 1);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
-		}
-		else if (r <= 25)
-		{
-			ApplyEffectInternal(player, MobEffects.BLINDNESS, 40, 1);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 40, 1);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
-		}
-		else if (r <= 60)
-		{
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 90, 1);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 90, 1);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 30, 0);
-		}
-		else if (r <= 85)
-		{
-			ApplyEffectInternal(player, MobEffects.WEAKNESS, 80, 1);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 80, 1);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 30, 0);
-		}
-		else if (r <= 99)
-		{
-			ApplyEffectInternal(player, MobEffects.CONFUSION, 60, 0);
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 40, 0);
-		}
+		ApplyLoadedEffect(player, sessionEffectId, EffectPools.getNormal());
 	}
-	
-	
 	
 	private static void ApplySevereEffect(LivingEntity player, int sessionEffectId)
 	{
 		//System.out.println("*********      ApplySevereEffect(" + sessionEffectId + ")");
-		int r = sessionEffectId > 0 ? sessionEffectId : random.nextInt(100) + 1;
-		if (r <= 20)
-		{
-			ApplyEffectInternal(player, MobEffects.CONFUSION, 45, 0);
-			ApplyEffectInternal(player, MobEffects.WEAKNESS, 45, 0);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
-		}
-		else if (r <= 30)
-		{
-			ApplyEffectInternal(player, MobEffects.CONFUSION, 45, 0);
-			ApplyEffectInternal(player, MobEffects.POISON, 10, 0);
-		}
-		else if (r <= 45)
-		{
-			ApplyEffectInternal(player, MobEffects.BLINDNESS, 45, 0);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
-			ApplyEffectInternal(player, MobEffects.POISON, 20, 0);
-		}
-		else if (r <= 55)
-		{
-			ApplyEffectInternal(player, MobEffects.BLINDNESS, 15, 1);
-			ApplyEffectInternal(player, MobEffects.POISON, 15, 0);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
-		}
-		else if (r <= 75)
-		{
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 2);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 60, 2);
-			ApplyEffectInternal(player, MobEffects.POISON, 15, 0);
-		}
-		else if (r <= 90)
-		{
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 0);
-			ApplyEffectInternal(player, MobEffects.WEAKNESS, 60, 1);
-			ApplyEffectInternal(player, MobEffects.POISON, 15, 1);
-		}
-		else if (r <= 95)
-		{
-			ApplyEffectInternal(player, MobEffects.MOVEMENT_SLOWDOWN, 45, 0);
-			ApplyEffectInternal(player, MobEffects.DIG_SLOWDOWN, 45, 0);
-			ApplyEffectInternal(player, MobEffects.HUNGER, 45, 0);
-		}
+		ApplyLoadedEffect(player, sessionEffectId, EffectPools.getSevere());
 	}
 	
 

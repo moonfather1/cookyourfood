@@ -1,18 +1,17 @@
 package moonfather.cookyourfood;
 
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FoodResolver
 {
-	private static final SimpleContainer inventoryForCheckingRecipes = new SimpleContainer(ItemStack.EMPTY);
+	private static final SimpleInventory inventoryForCheckingRecipes = new SimpleInventory(ItemStack.EMPTY);
 	public enum RawFoodRank { NotMapped, NotACookableFood, OkayToEat, Light, Normal, Severe };
 	private static final Map<Item, RawFoodRank> foodMap = new HashMap<Item, RawFoodRank>();
 
@@ -40,7 +39,7 @@ public class FoodResolver
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	public static RawFoodRank Resolve(ItemStack stack, Level world)
+	public static RawFoodRank Resolve(ItemStack stack, World world)
 	{
 		final FoodResolver.RawFoodRank[] rank = new RawFoodRank[1]; // because it's used in stupid lambda of stupid Optional
 		rank[0] = foodMap.getOrDefault(stack.getItem(), RawFoodRank.NotMapped);
@@ -49,33 +48,33 @@ public class FoodResolver
 			return rank[0];
 		}
 		///...///
-		if (stack.is(Constants.Tags.OK_TO_EAT_RAW))
+		if (stack.isIn(Constants.Tags.OK_TO_EAT_RAW))
 		{
 			foodMap.put(stack.getItem(), RawFoodRank.OkayToEat);
 			return RawFoodRank.OkayToEat;
 		}
-		if (stack.is(Constants.Tags.RAW_FOOD_SEVERE))
+		if (stack.isIn(Constants.Tags.RAW_FOOD_SEVERE))
 		{
 			foodMap.put(stack.getItem(), RawFoodRank.Severe);
 			return RawFoodRank.Severe;
 		}
-		if (stack.is(Constants.Tags.RAW_FOOD_LIGHT))
+		if (stack.isIn(Constants.Tags.RAW_FOOD_LIGHT))
 		{
 			foodMap.put(stack.getItem(), RawFoodRank.Light);
 			return RawFoodRank.Light;
 		}
-		if (stack.is(Constants.Tags.RAW_FOOD_NORMAL))
+		if (stack.isIn(Constants.Tags.RAW_FOOD_NORMAL))
 		{
 			foodMap.put(stack.getItem(), RawFoodRank.Normal);
 			return RawFoodRank.Normal;
 		}
 		///...///
-		inventoryForCheckingRecipes.setItem(0, stack);
+		inventoryForCheckingRecipes.setStack(0, stack);
 		rank[0] = RawFoodRank.NotACookableFood;
-		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
+		world.getRecipeManager().getFirstMatch(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
 				r ->
 				{
-					if  (!r.getResultItem().isEmpty() && r.getResultItem().getItem().getFoodProperties() != null)
+					if (! r.getOutput().isEmpty() && r.getOutput().getItem().getFoodComponent() != null)
 					{
 						rank[0] = RawFoodRank.Normal;
 					}

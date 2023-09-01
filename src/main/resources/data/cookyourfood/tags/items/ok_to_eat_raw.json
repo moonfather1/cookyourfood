@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:apple",
-    "minecraft:carrot"
+    "minecraft:carrot",
+    { "id": "sweetberryfoods:blueberries", "required": false }
   ]
 }

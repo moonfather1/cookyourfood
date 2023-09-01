@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "moonfather.cookyourfood.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [],
+	"client": [
+      "FoodMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

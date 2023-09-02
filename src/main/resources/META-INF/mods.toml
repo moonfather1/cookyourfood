@@ -1,11 +1,11 @@
 
 modLoader="javafml" 
-loaderVersion="[44,)"
+loaderVersion="[43,)"
 license="LGPLv3"
 
 [[mods]] 
 modId="cookyourfood" 
-version="1.00" 
+version="1.10"
  
 displayURL="https://modrinth.com/mod/cook-your-food"
 issueTrackerURL="https://discord.gg/C9MrEenQ"
@@ -16,12 +16,16 @@ description='''This mod makes the food poisoning a serious deal. Eating any kind
 [[dependencies.cookyourfood]]     
     modId="forge"     
     mandatory=true     
-    versionRange="[44,)"
+    versionRange="[43,)"
     ordering="NONE"    
     side="BOTH"
 [[dependencies.cookyourfood]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="[1.19.2,1.19.3)"
     ordering="NONE"
     side="BOTH"
+
+[modproperties.cookyourfood]
+    catalogueImageIcon="textures/icon.png"
+    configuredBackground="minecraft:textures/block/spruce_planks.png"

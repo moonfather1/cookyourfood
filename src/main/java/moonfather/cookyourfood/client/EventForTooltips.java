@@ -1,19 +1,22 @@
 package moonfather.cookyourfood.client;
 
 import moonfather.cookyourfood.FoodResolver;
+import moonfather.cookyourfood.OptionsHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class EventForTooltips
 {
-	private final Component messageSevere = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc84030)));
-	private final Component messageNormal = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xf5a91b)));
-	private final Component messageLight  = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xdde80c)));
+	private static final Component messageSevere = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xc84030)));
+	private static final Component messageNormal = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xf5a91b)));
+	private static final Component messageLight  = Component.translatable("message.shared").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xdde80c)));
 
-	public void OnItemTooltip(ItemTooltipEvent event)
+	public static void OnItemTooltip(ItemTooltipEvent event)
 	{
 		if (event.getItemStack().isEmpty() || event.getItemStack().getItem().getFoodProperties() == null || event.getEntity() == null)
 		{
@@ -32,6 +35,14 @@ public class EventForTooltips
 		else if (rank.equals(FoodResolver.RawFoodRank.Normal))
 		{
 			event.getToolTip().add(messageNormal);
+		}
+	}
+
+	public static void Initialize(FMLClientSetupEvent event)
+	{
+		if (OptionsHolder.CLIENT.ShowWarningsInTooltip.get())
+		{
+			MinecraftForge.EVENT_BUS.addListener(EventForTooltips::OnItemTooltip);
 		}
 	}
 }

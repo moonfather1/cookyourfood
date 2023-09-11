@@ -14,10 +14,10 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	maven {
-		name 'Quilt'
-		url 'https://maven.quiltmc.org/repository/release'
-	}
+	//maven {
+	//	name 'Quilt'
+	//	url 'https://maven.quiltmc.org/repository/release'
+	//}
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -44,7 +44,7 @@ processResources {
 	inputs.property 'version', version
 
 	filesMatching('quilt.mod.json') {
-		expand "version": version
+		expand 'version': version
 	}
 }
 
@@ -71,7 +71,7 @@ java {
 // If you plan to use a different file for the license, don't forget to change the file name here!
 jar {
 	from('LICENSE') {
-		rename { "${it}_${archivesBaseName}" }
+				rename { "${it}_${base.archivesName.get()}" }
 	}
 }
 

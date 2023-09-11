@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.quiltmc.loader.api.QuiltLoader;
 
 import java.io.IOException;
@@ -104,9 +104,9 @@ public class EffectPools
         {
             for (EffectInternal ei: e.list)
             {
-                if (! Registry.STATUS_EFFECT.containsId(new Identifier(ei.effect_id)))
+                if (! Registries.STATUS_EFFECT.containsId(new Identifier(ei.effect_id)))
                 {
-                    ei.effect_id = Registry.STATUS_EFFECT.getKey(defaultForMissing).toString();
+                    ei.effect_id = Registries.STATUS_EFFECT.getKey(defaultForMissing).toString();
                 }
             }
         }
@@ -130,11 +130,11 @@ public class EffectPools
         EffectLevel result = new EffectLevel();
         result.effects = new Effect[5];
         result.effects[0] = Effect.create(3, 10).add(StatusEffects.POISON, 6, 0)
-                                                             .add(StatusEffects.WEAKNESS, 40, 1)
+                                                             .add(StatusEffects.WEAKNESS, 60, 1)
                                                              .add(StatusEffects.HUNGER, 10, 0);
-        result.effects[1] = Effect.create(3, 15).add(StatusEffects.BLINDNESS, 40, 1)
+        result.effects[1] = Effect.create(3, 15).add(StatusEffects.BLINDNESS, 12, 1)
                                                              .add(StatusEffects.MINING_FATIGUE, 40, 1)
-                                                             .add(StatusEffects.WEAKNESS, 10, 0);
+                                                             .add(StatusEffects.WEAKNESS, 40, 0);
         result.effects[2] = Effect.create(3, 35).add(StatusEffects.SLOWNESS, 90, 1)
                                                              .add(StatusEffects.MINING_FATIGUE, 90, 1)
                                                              .add(StatusEffects.HUNGER, 5, 0);
@@ -216,7 +216,7 @@ public class EffectPools
             {
                 if (this.list[i] == null)
                 {
-                    this.list[i] = new EffectInternal(Registry.STATUS_EFFECT.getId(effect).toString(), duration, effectLevel);
+                    this.list[i] = new EffectInternal(Registries.STATUS_EFFECT.getId(effect).toString(), duration, effectLevel);
                     return this;
                 }
             }

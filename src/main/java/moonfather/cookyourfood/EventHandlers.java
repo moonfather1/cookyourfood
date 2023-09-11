@@ -6,9 +6,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
@@ -92,7 +92,7 @@ public class EventHandlers
             // if not, we went through all effect and there should be nothing applied
             for (EffectPools.EffectInternal ei: loaded.effects[index].list)
             {
-                ApplyEffectInternal(player, Registry.STATUS_EFFECT.get(new Identifier(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
+                ApplyEffectInternal(player, Registries.STATUS_EFFECT.get(new Identifier(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
             }
         }
     }
@@ -124,7 +124,7 @@ public class EventHandlers
         if (existing != null)
         {
         // randomly reduce added duration; approx 0.5 for everything except hunger and 0.25 for hunger.
-        float timeMultiplier = player.world.getRandom().nextFloat();
+        float timeMultiplier = player.getWorld().getRandom().nextFloat();
         if (potion == StatusEffects.HUNGER)
         {
         timeMultiplier *= 0.5f;
@@ -142,11 +142,11 @@ public class EventHandlers
 
     private static double GetDifficultyMultiplier(LivingEntity player)
     {
-        if (player.world.getDifficulty() == Difficulty.EASY || player.world.getDifficulty() == Difficulty.PEACEFUL)
+        if (player.getWorld().getDifficulty() == Difficulty.EASY || player.getWorld().getDifficulty() == Difficulty.PEACEFUL)
         {
             return ModCookYourFood.CONFIG.EasyDifDurationMultiplier;
         }
-        if (player.world.getDifficulty() == Difficulty.NORMAL)
+        if (player.getWorld().getDifficulty() == Difficulty.NORMAL)
         {
             return ModCookYourFood.CONFIG.NormalDifDurationMultiplier;
         }

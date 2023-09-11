@@ -25,7 +25,7 @@ public class EventForTooltips
             // one of the later two above is null once during startup but during gameplay we have everything
             return;
         }
-        FoodResolver.RawFoodRank rank = FoodResolver.Resolve(itemStack, playerEntity.world);
+        FoodResolver.RawFoodRank rank = FoodResolver.Resolve(itemStack, playerEntity.getWorld());
         if (rank.equals(FoodResolver.RawFoodRank.Severe) || itemStack.getItem().equals(Items.PUFFERFISH))
         {
             texts.add(messageSevere);

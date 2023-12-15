@@ -1,30 +1,26 @@
 package moonfather.cookyourfood;
 
 import com.mojang.logging.LogUtils;
-import moonfather.cookyourfood.client.EventForTooltips;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Constants.MODID)
 public class ModCookYourFood
 {
-    public ModCookYourFood()
+    public ModCookYourFood(IEventBus modBus)
     {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, OptionsHolder.CLIENT_SPEC);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(EventForTooltips::Initialize));
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        modBus.addListener(this::enqueueIMC);
+        modBus.addListener(this::processIMC);
     }
 
 
@@ -46,23 +42,23 @@ public class ModCookYourFood
                         LogUtils.getLogger().warn("Warning: InterModComms message to mod CookYourFood received from " + m.getSenderModId() + ". IMC will be removed in 1.20.2 in favor of tags.");
                         Object value = m.getMessageSupplier().get();
                         ResourceLocation itemCode = new ResourceLocation(value != null ? value.toString() : "x:x");
-                        if (ForgeRegistries.ITEMS.containsKey(itemCode))
+                        if (BuiltInRegistries.ITEM.containsKey(itemCode))
                         {
                             if (m.getMethod().equals("ok-to-eat-raw"))
                             {
-                                FoodResolver.AddOkToEatRaw(ForgeRegistries.ITEMS.getValue(itemCode));
+                                FoodResolver.AddOkToEatRaw(BuiltInRegistries.ITEM.get(itemCode));
                             }
                             else if (m.getMethod().equals("raw-food-light"))
                             {
-                                FoodResolver.AddCustomRawFoodLight(ForgeRegistries.ITEMS.getValue(itemCode));
+                                FoodResolver.AddCustomRawFoodLight(BuiltInRegistries.ITEM.get(itemCode));
                             }
                             else if (m.getMethod().equals("raw-food-normal"))
                             {
-                                FoodResolver.AddCustomRawFoodNormal(ForgeRegistries.ITEMS.getValue(itemCode));
+                                FoodResolver.AddCustomRawFoodNormal(BuiltInRegistries.ITEM.get(itemCode));
                             }
                             else if (m.getMethod().equals("raw-food-severe"))
                             {
-                                FoodResolver.AddCustomRawFoodSevere(ForgeRegistries.ITEMS.getValue(itemCode));
+                                FoodResolver.AddCustomRawFoodSevere(BuiltInRegistries.ITEM.get(itemCode));
                             }
                             else
                             {

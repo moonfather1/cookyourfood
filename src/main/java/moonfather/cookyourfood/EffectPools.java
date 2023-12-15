@@ -2,11 +2,11 @@ package moonfather.cookyourfood;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -104,9 +104,9 @@ public class EffectPools
         {
             for (EffectInternal ei: e.list)
             {
-                if (! ForgeRegistries.MOB_EFFECTS.containsKey(new ResourceLocation(ei.effect_id)))
+                if (! BuiltInRegistries.MOB_EFFECT.containsKey(new ResourceLocation(ei.effect_id)))
                 {
-                    ei.effect_id = ForgeRegistries.MOB_EFFECTS.getKey(defaultForMissing).toString();
+                    ei.effect_id = BuiltInRegistries.MOB_EFFECT.getKey(defaultForMissing).toString();
                 }
             }
         }
@@ -216,7 +216,7 @@ public class EffectPools
             {
                 if (this.list[i] == null)
                 {
-                    this.list[i] = new EffectInternal(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString(), duration, effectLevel);
+                    this.list[i] = new EffectInternal(BuiltInRegistries.MOB_EFFECT.getKey(effect).toString(), duration, effectLevel);
                     return this;
                 }
             }

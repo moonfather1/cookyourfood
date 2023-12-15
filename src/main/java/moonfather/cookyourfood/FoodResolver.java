@@ -3,7 +3,6 @@ package moonfather.cookyourfood;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
@@ -75,7 +74,7 @@ public class FoodResolver
 		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
 				r ->
 				{
-					if  (! r.getResultItem(world.registryAccess()).isEmpty() && r.getResultItem(world.registryAccess()).getItem().getFoodProperties() != null)
+					if  (! r.value().getResultItem(world.registryAccess()).isEmpty() && r.value().getResultItem(world.registryAccess()).getItem().getFoodProperties() != null)
 					{
 						rank[0] = RawFoodRank.Normal;
 					}

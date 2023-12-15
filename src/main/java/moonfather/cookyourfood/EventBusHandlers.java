@@ -2,6 +2,7 @@ package moonfather.cookyourfood;
 
 import java.util.*;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffect;
@@ -9,11 +10,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
 @Mod.EventBusSubscriber
 public class EventBusHandlers  
@@ -98,7 +98,7 @@ public class EventBusHandlers
 			// if not, we went through all effect and there should be nothing applied
 			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
 			{
-				ApplyEffectInternal(player, ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
+				ApplyEffectInternal(player, BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
 			}
 		}
 	}

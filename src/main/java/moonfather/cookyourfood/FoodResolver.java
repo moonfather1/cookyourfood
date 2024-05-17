@@ -1,6 +1,7 @@
 package moonfather.cookyourfood;
 
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -39,7 +40,7 @@ public class FoodResolver
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	public static RawFoodRank Resolve(ItemStack stack, Level world)
+	public static RawFoodRank Resolve(ItemStack stack, Level world, LivingEntity player)
 	{
 		final FoodResolver.RawFoodRank[] rank = new RawFoodRank[1]; // because it's used in stupid lambda of stupid Optional
 		rank[0] = foodMap.getOrDefault(stack.getItem(), RawFoodRank.NotMapped);
@@ -74,7 +75,7 @@ public class FoodResolver
 		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
 				r ->
 				{
-					if  (! r.value().getResultItem(world.registryAccess()).isEmpty() && r.value().getResultItem(world.registryAccess()).getItem().getFoodProperties() != null)
+					if  (! r.value().getResultItem(world.registryAccess()).isEmpty() && r.value().getResultItem(world.registryAccess()).getFoodProperties(player) != null)
 					{
 						rank[0] = RawFoodRank.Normal;
 					}

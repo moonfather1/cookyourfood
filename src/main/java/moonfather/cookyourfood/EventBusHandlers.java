@@ -2,6 +2,7 @@ package moonfather.cookyourfood;
 
 import java.util.*;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
@@ -11,11 +12,11 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EventBusHandlers  
 {
 	private static final Random random = new Random();
@@ -42,7 +43,7 @@ public class EventBusHandlers
 		{
 			return;
 		}
-		FoodResolver.RawFoodRank rank = FoodResolver.Resolve(event.getItem(), event.getEntity().level());
+		FoodResolver.RawFoodRank rank = FoodResolver.Resolve(event.getItem(), event.getEntity().level(), event.getEntity());
 		if (rank.equals(FoodResolver.RawFoodRank.NotACookableFood))
 		{
 			return;
@@ -98,7 +99,9 @@ public class EventBusHandlers
 			// if not, we went through all effect and there should be nothing applied
 			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
 			{
-				ApplyEffectInternal(player, BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(ei.effect_id)), ei.duration_in_sec, ei.effect_level);
+				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.getHolder(new ResourceLocation(ei.effect_id));
+				if (potionReference.isEmpty()) { continue; }
+				ApplyEffectInternal(player, potionReference.get(), ei.duration_in_sec, ei.effect_level);
 			}
 		}
 	}
@@ -122,7 +125,7 @@ public class EventBusHandlers
 	
 
 	
-	private static void ApplyEffectInternal(LivingEntity player, MobEffect potion, int durationInSeconds, int level)
+	private static void ApplyEffectInternal(LivingEntity player, Holder<MobEffect> potion, int durationInSeconds, int level)
 	{
 		int duration = (int) Math.round(durationInSeconds * 20 * GetDifficultyMultiplier(player));
 		

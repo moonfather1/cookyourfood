@@ -4,15 +4,17 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FoodResolver
 {
-	private static final SimpleContainer inventoryForCheckingRecipes = new SimpleContainer(ItemStack.EMPTY);
 	public enum RawFoodRank { NotMapped, NotACookableFood, OkayToEat, Light, Normal, Severe };
 	private static final Map<Item, RawFoodRank> foodMap = new HashMap<Item, RawFoodRank>();
 
@@ -70,9 +72,8 @@ public class FoodResolver
 			return RawFoodRank.Normal;
 		}
 		///...///
-		inventoryForCheckingRecipes.setItem(0, stack);
 		rank[0] = RawFoodRank.NotACookableFood;
-		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, inventoryForCheckingRecipes, world).ifPresent(
+		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, new SingleRecipeInput(stack), world).ifPresent(
 				r ->
 				{
 					if  (! r.value().getResultItem(world.registryAccess()).isEmpty() && r.value().getResultItem(world.registryAccess()).getFoodProperties(player) != null)

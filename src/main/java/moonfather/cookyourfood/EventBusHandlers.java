@@ -99,7 +99,7 @@ public class EventBusHandlers
 			// if not, we went through all effect and there should be nothing applied
 			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
 			{
-				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.getHolder(new ResourceLocation(ei.effect_id));
+				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(ei.effect_id));
 				if (potionReference.isEmpty()) { continue; }
 				ApplyEffectInternal(player, potionReference.get(), ei.duration_in_sec, ei.effect_level);
 			}

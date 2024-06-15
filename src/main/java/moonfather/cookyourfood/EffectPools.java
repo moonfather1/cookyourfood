@@ -104,7 +104,8 @@ public class EffectPools
         {
             for (EffectInternal ei: e.list)
             {
-                if (! BuiltInRegistries.MOB_EFFECT.containsKey(new ResourceLocation(ei.effect_id)))
+                ResourceLocation parsed = ResourceLocation.tryParse(ei.effect_id);
+                if (parsed == null || ! BuiltInRegistries.MOB_EFFECT.containsKey(parsed))
                 {
                     ei.effect_id = BuiltInRegistries.MOB_EFFECT.getKey(defaultForMissing).toString();
                 }

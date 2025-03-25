@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "cookyourfood",
+	"version": "${version}",
+	"name": "Cook your food",
+	"description": "This mod makes the food poisoning a serious deal. \nEating any kind of raw food will cause poisoning with varying effects. Eating rotten flesh is a very, very bad idea and should only be done as a last-ditch gamble, if you're going to die anyway.",
+	"authors": [
+		"MoonFather"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/cook-your-food"
+	},
+	"license": "MIT",
+	"icon": "assets/cookyourfood/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"moonfather.cookyourfood.CookYourFoodMod"
+		],
+		"client": [
+			"moonfather.cookyourfood.CookYourFoodModClient"
+		]
+	},
+	"mixins": [
+		"cookyourfood.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.3",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Preparing food",
+  "icon": "minecraft:porkchop",
+  "category": "lexicon:start",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some food can be eaten immediately after obtaining - $(item)apples$() and $(item)carrots$() for example. But you shouldn't just eat a porkchop. Eating any kind of raw food will cause poisoning with varying effects. Cooking/grilling the food will make it more saturating and lets you avoid food poisoning. $(br2) "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(br2)If you are going to eat meat, you need to make a $(item)firepit$() or a $(item)campfire$(). Place the raw meat piece onto a campfire/firepit and wait until it is done. $(br2)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(br)Rotten flesh from zombies is poisonous and a campfire won't help. Eating it might fill your stomach a little but following effects will surely make your situation worse, not better. Similar goes for pufferfish, although that one might even be less dangerous."
+    }
+  ]
+}

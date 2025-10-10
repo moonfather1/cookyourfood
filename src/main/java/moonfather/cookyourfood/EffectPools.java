@@ -49,7 +49,7 @@ public class EffectPools
 
     private static void readFromJson()
     {
-        Path configPath = Path.of(FMLConfig.defaultConfigPath(),"cookyourfood-potion-effects.json");
+        Path configPath = Path.of(FMLConfig. defaultConfigPath(), "..", "config", "cookyourfood-potion-effects.json");
         StoredEffects main = null;
         if (configPath.toFile().exists())
         {

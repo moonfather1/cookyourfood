@@ -1,10 +1,13 @@
 package moonfather.cookyourfood;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipePropertySet;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
@@ -73,15 +76,27 @@ public class FoodResolver
 		}
 		///...///
 		rank[0] = RawFoodRank.NotACookableFood;
-		world.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, new SingleRecipeInput(stack), world).ifPresent(
-				r ->
-				{
-					if  (! r.value().getResultItem(world.registryAccess()).isEmpty() && r.value().getResultItem(world.registryAccess()).getFoodProperties(player) != null)
+		if (world instanceof ServerLevel serverLevel)
+		{
+			SingleRecipeInput input = new SingleRecipeInput(stack);
+			serverLevel.recipeAccess().getRecipeFor(RecipeType.CAMPFIRE_COOKING, input, world).ifPresent(
+					r ->
 					{
-						rank[0] = RawFoodRank.Normal;
+						ItemStack result = r.value().assemble(input, world.registryAccess());
+						if (! result.isEmpty() && result.has(DataComponents.FOOD))
+						{
+							rank[0] = RawFoodRank.Normal;
+						}
 					}
-				}
-		);
+			);
+		}
+		else
+		{
+			if (world.recipeAccess().propertySet(RecipePropertySet.CAMPFIRE_INPUT).test(stack))   // dumber client version. inaccurate for things that cook into non-food
+			{
+				rank[0] = RawFoodRank.Normal;
+			}
+		}
 		foodMap.put(stack.getItem(), rank[0]);
 		return rank[0];
 	}

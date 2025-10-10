@@ -3,6 +3,7 @@ package moonfather.cookyourfood;
 import java.util.*;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
@@ -33,13 +34,13 @@ public class EventBusHandlers
 	@SubscribeEvent
 	public static void OnFood(LivingEntityUseItemEvent.Finish event)
 	{
-		if (event.getEntity().level().isClientSide)
+		if (event.getEntity().level().isClientSide())
 		{
 			return;
 		}
 		
 		Item item = event.getItem().getItem();
-		if (item.getFoodProperties(event.getItem(), event.getEntity()) == null)
+		if (! event.getItem().has(DataComponents.FOOD))
 		{
 			return;
 		}
@@ -99,7 +100,7 @@ public class EventBusHandlers
 			// if not, we went through all effect and there should be nothing applied
 			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
 			{
-				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.parse(ei.effect_id));
+				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(ei.effect_id));
 				if (potionReference.isEmpty()) { continue; }
 				ApplyEffectInternal(player, potionReference.get(), ei.duration_in_sec, ei.effect_level);
 			}

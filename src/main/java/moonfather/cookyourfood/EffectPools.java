@@ -132,19 +132,19 @@ public class EffectPools
         result.effects = new Effect[5];
         result.effects[0] = Effect.create(3, 10).add(MobEffects.POISON.value(), 6, 0)
                                                              .add(MobEffects.WEAKNESS.value(), 40, 1)
-                                                             .add(MobEffects.HUNGER.value(), 10, 0);
+                                                             .add(MobEffects.HUNGER.value(), 15, 1);
         result.effects[1] = Effect.create(3, 15).add(MobEffects.BLINDNESS.value(), 40, 1)
                                                              .add(MobEffects.MINING_FATIGUE.value(), 40, 1)
-                                                             .add(MobEffects.HUNGER.value(), 10, 0);
+                                                             .add(MobEffects.HUNGER.value(), 15, 1);
         result.effects[2] = Effect.create(3, 35).add(MobEffects.SLOWNESS.value(), 90, 1)
                                                              .add(MobEffects.MINING_FATIGUE.value(), 90, 1)
-                                                             .add(MobEffects.HUNGER.value(), 5, 0);
+                                                             .add(MobEffects.HUNGER.value(), 10, 1);
         result.effects[3] = Effect.create(3, 25).add(MobEffects.WEAKNESS.value(), 75, 1)
                                                              .add(MobEffects.MINING_FATIGUE.value(), 75, 1)
-                                                             .add(MobEffects.HUNGER.value(), 10, 0);
+                                                             .add(MobEffects.HUNGER.value(), 15, 1);
         result.effects[4] = Effect.create(3, 14).add(MobEffects.WEAKNESS.value(), 10, 1)
                                                              .add(MobEffects.SLOWNESS.value(), 60, 0)
-                                                             .add(MobEffects.HUNGER.value(), 10, 0);
+                                                             .add(MobEffects.HUNGER.value(), 30, 0);
         result.description = "effects applied when player eats food of NORMAL severity (raw meat, etc.).";
         result.comment = "by default, 1% chance of no effect. btw, effect levels are zero-based, so in first group, 1 means weakness II.";
         return result;
@@ -157,7 +157,7 @@ public class EffectPools
         result.effects = new Effect[7];
         result.effects[0] = Effect.create(3, 20).add(MobEffects.NAUSEA.value(), 45, 0)
                                                              .add(MobEffects.WEAKNESS.value(), 45, 0)
-                                                             .add(MobEffects.HUNGER.value(), 10, 0);
+                                                             .add(MobEffects.HUNGER.value(), 30, 0);
         result.effects[1] = Effect.create(2, 10).add(MobEffects.NAUSEA.value(), 45, 0)
                                                              .add(MobEffects.POISON.value(), 10, 0);
         result.effects[2] = Effect.create(3, 15).add(MobEffects.BLINDNESS.value(), 45, 0)
@@ -165,7 +165,7 @@ public class EffectPools
                                                              .add(MobEffects.POISON.value(), 15, 0);
         result.effects[3] = Effect.create(3, 10).add(MobEffects.BLINDNESS.value(), 15, 1)
                                                              .add(MobEffects.POISON.value(), 15, 0)
-                                                             .add(MobEffects.HUNGER.value(), 15, 0);
+                                                             .add(MobEffects.HUNGER.value(), 35, 0);
         result.effects[4] = Effect.create(3, 20).add(MobEffects.SLOWNESS.value(), 60, 1)
                                                              .add(MobEffects.MINING_FATIGUE.value(), 60, 1)
                                                              .add(MobEffects.POISON.value(), 15, 0);
@@ -174,7 +174,7 @@ public class EffectPools
                                                              .add(MobEffects.POISON.value(), 10, 1);
         result.effects[6] = Effect.create(3,  5).add(MobEffects.SLOWNESS.value(), 45, 0)
                                                              .add(MobEffects.MINING_FATIGUE.value(), 45, 0)
-                                                             .add(MobEffects.HUNGER.value(), 15, 0);
+                                                             .add(MobEffects.HUNGER.value(), 45, 0);
         result.description = "effects applied when player eats food of SEVERE severity (zombie flesh, etc.).";
         result.comment = "by default, 5% chance of no effect. btw, durations are in seconds.";
         return result;

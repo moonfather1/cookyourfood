@@ -4,7 +4,7 @@ import moonfather.cookyourfood.storage.RecipeCache;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.CloseableResourceManager;
 import net.minecraft.world.Difficulty;
@@ -104,7 +104,7 @@ public class EventHandlers
             // if not, we went through all effect and there should be nothing applied
             for (EffectPools.EffectInternal ei: loaded.effects[index].list)
             {
-                Optional<Holder.Reference<MobEffect>> ref = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(ei.effect_id));
+                Optional<Holder.Reference<MobEffect>> ref = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(ei.effect_id));
                 if (ref.isEmpty()) { continue; }
                 ApplyEffectInternal(player, ref.get(), ei.duration_in_sec, ei.effect_level);
             }

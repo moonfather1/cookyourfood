@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 
@@ -104,7 +104,7 @@ public class EffectPools
         {
             for (EffectInternal ei: e.list)
             {
-                if (! BuiltInRegistries.MOB_EFFECT.containsKey(ResourceLocation.parse(ei.effect_id)))
+                if (! BuiltInRegistries.MOB_EFFECT.containsKey(Identifier.parse(ei.effect_id)))
                 {
                     ei.effect_id = BuiltInRegistries.MOB_EFFECT.getKey(defaultForMissing).toString();
                 }

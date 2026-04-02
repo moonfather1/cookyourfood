@@ -5,7 +5,7 @@ import java.util.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -100,7 +100,7 @@ public class EventBusHandlers
 			// if not, we went through all effect and there should be nothing applied
 			for (EffectPools.EffectInternal ei: loaded.effects[index].list)
 			{
-				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(ei.effect_id));
+				Optional<Holder.Reference<MobEffect>> potionReference = BuiltInRegistries.MOB_EFFECT.get(Identifier.parse(ei.effect_id));
 				if (potionReference.isEmpty()) { continue; }
 				ApplyEffectInternal(player, potionReference.get(), ei.duration_in_sec, ei.effect_level);
 			}

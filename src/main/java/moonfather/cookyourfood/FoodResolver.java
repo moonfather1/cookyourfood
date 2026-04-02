@@ -13,7 +13,6 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FoodResolver

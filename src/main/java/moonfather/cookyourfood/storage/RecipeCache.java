@@ -36,7 +36,7 @@ public class RecipeCache
         {
             if (recipe.matches(input, world))
             {
-                return Optional.of(recipe.assemble(input, world.registryAccess()));
+                return Optional.of(recipe.assemble(input));
             }
         }
         return Optional.empty();

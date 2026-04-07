@@ -81,7 +81,7 @@ public class FoodResolver
 			serverLevel.recipeAccess().getRecipeFor(RecipeType.CAMPFIRE_COOKING, input, world).ifPresent(
 					r ->
 					{
-						ItemStack result = r.value().assemble(input, world.registryAccess());
+						ItemStack result = r.value().assemble(input);
 						if (! result.isEmpty() && result.has(DataComponents.FOOD))
 						{
 							rank[0] = RawFoodRank.Normal;

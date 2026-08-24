@@ -8,6 +8,7 @@
     "minecraft:bread",
     "minecraft:sweet_berries",
     "minecraft:glow_berries",
-    { "id": "sweetberryfoods:blueberries", "required": false }
+    { "id": "sweetberryfoods:blueberries", "required": false },
+    "minecraft:cooked_beef"
   ]
 }

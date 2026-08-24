@@ -1,0 +1,7 @@
+{
+  "message.shared": "Kann eine Vergiftung verursachen, wenn es nicht gekocht oder gebacken wird.",
+  "tag.item.cookyourfood.raw_food_light": "Kann eine leichte Vergiftung verursachen",
+  "tag.item.cookyourfood.raw_food_normal": "Verursacht eine Vergiftung, wenn es nicht gekocht wird",
+  "tag.item.cookyourfood.raw_food_severe": "Wird eine schwere Vergiftung verursachen",
+  "tag.item.cookyourfood.ok_to_eat_raw": "Kann bedenkenlos gegessen werden"
+}

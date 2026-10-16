@@ -10,7 +10,7 @@ public class ModCookYourFood
 {
     public ModCookYourFood(IEventBus modBus, ModContainer modContainer)
     {
-        modContainer.registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
+        modContainer.registerConfig(ModConfig.Type.LOCAL, OptionsHolder.COMMON_SPEC, "cookyourfood-common.toml");
         modContainer.registerConfig(ModConfig.Type.CLIENT, OptionsHolder.CLIENT_SPEC);
     }
 }

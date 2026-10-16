@@ -1,0 +1,20 @@
+{
+  "name": "Preparing food",
+  "icon": "minecraft:porkchop",
+  "category": "lexicon:start",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Einige Lebensmittel können direkt nach dem Erhalt gegessen werden - $(item)apples$() und $(item)carrots$() zum Beispiel. Aber du solltest nicht einfach rohes Schweinefleisch essen. Der Verzehr jeglicher Art von Rohnahrung führt zu Vergiftungen mit unterschiedlichen Auswirkungen. Das Kochen oder Grillen des Essens macht es sättigender und verhindert eine Vergiftung. $(br2) "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(br2)Wenn du Fleisch essen willst, musst du eine $(item)firepit$() oder ein $(item)campfire$() bauen. Platziere das rohe Fleisch auf einem Lagerfeuer und warte bis es gebraten ist.  $(br2)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(br)Verrottetes Fleisch von Zombies ist giftig und braten wird das nicht ändern. Es zu essen füllt zwar deinen Bauch, aber die Nebenwirkungen machen deine Situation schlimmer, nicht besser. Beim Kugelflisch ist es ähnlich, obwohl dieser weniger gefährlich ist."
+    }
+  ]
+}

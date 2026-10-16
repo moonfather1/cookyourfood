@@ -1,3 +1,7 @@
 {
-  "message.shared": "Can cause food poisoning if not cooked/baked."
+  "message.shared": "Can cause food poisoning if not cooked/baked.",
+  "tag.item.cookyourfood.raw_food_light": "May cause slight food poisoning",
+  "tag.item.cookyourfood.raw_food_normal": "Will cause poisoning if not cooked",
+  "tag.item.cookyourfood.raw_food_severe": "Will cause severe poisoning",
+  "tag.item.cookyourfood.ok_to_eat_raw": "Can be eaten as-is"
 }
